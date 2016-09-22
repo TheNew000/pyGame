@@ -2,6 +2,8 @@
 import sys #we will need sys so the user can quit
 import pygame
 from bullet_class import Bullet
+from enemy_class import Enemy
+
 
 def check_events(hero, bullets, game_settings, screen):
     for event in pygame.event.get(): #run through all pygame events
@@ -29,9 +31,11 @@ def check_events(hero, bullets, game_settings, screen):
             elif event.key == pygame.K_DOWN:
                 hero.moving_down = False
 
-def update_screen(settings, screen, hero, bullets):
+def update_screen(settings, screen, hero, enemies, bullets):
     screen.fill(settings.bg_color)
     hero.draw_me()
+    for enemy in enemies.sprites():
+        enemy.draw_me()
     for bullet in bullets.sprites():
         bullet.draw_bullet()
     pygame.display.flip()
