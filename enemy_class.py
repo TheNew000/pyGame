@@ -14,6 +14,7 @@ class Enemy(Sprite):
         self.rect.right = self.screen_rect.right  #this will put our hero "bottom" at the bottom of the screen
 
     def update(self, hero, speed=5):
+        
         # find normalized direction vector (dx, dy) between enemy and hero
         dx, dy = self.rect.x - hero.rect.x, self.rect.y - hero.rect.y
         dist = math.hypot(dx, dy)

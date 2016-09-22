@@ -31,13 +31,16 @@ def run_game():
         bullets.update()
         gf.update_screen(game_settings, screen, hero, enemies, bullets)  # call the update_screen method
         # get rid of  bullets that are off the screen
-        for bullet in bullets:
-            if bullet.rect.right <= 0:
-                bullets.remove(bullet)
-            for enemy in enemies:
+        for enemy in enemies:
+            for bullet in bullets:
+                if bullet.rect.right <= 0:
+                    bullets.remove(bullet)
                 if enemy.rect.colliderect(bullet.rect):
                     enemies.remove(enemy)
                     bullets.remove(bullet)
+            if enemy.rect.colliderect(hero.rect):
+                print "You DIED!"
+                exit(0)
 
 
 run_game()  # Start the game!
