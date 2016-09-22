@@ -15,6 +15,11 @@ def check_events(hero):
                 hero.moving_up = True
             elif event.key == pygame.K_DOWN:
                 hero.moving_down = True
+        elif event.type == pygame.KEYUP:
+            hero.moving_right = False
+            hero.moving_left = False
+            hero.moving_up = False
+            hero.moving_down = False
 
 def update_screen(settings, screen, hero):
     screen.fill(settings.bg_color)

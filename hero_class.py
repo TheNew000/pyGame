@@ -18,14 +18,14 @@ class Hero(object):
 
         #Add's updates to the hero class to keep all the hero updates in the hero class
     def update(self):
-        if self.moving_right:
-            hero.rect.centerx += 10
-        elif self.moving_left:
-            hero.rect.centerx -= 10
-        elif self.moving_up:
-            hero.rect.bottom -= 20
-        elif self.moving_down:
-            hero.rect.bottom += 20
+        if self.moving_right and self.rect.right < self.screen_rect.right:
+            self.rect.centerx += 15
+        elif self.moving_left and self.rect.left > self.screen_rect.left:
+            self.rect.centerx -= 15
+        elif self.moving_up and self.rect.top > self.screen_rect.top:
+            self.rect.bottom -= 15
+        elif self.moving_down and self.rect.bottom < self.screen_rect.bottom:
+            self.rect.bottom += 15
 
     def draw_me(self):
         self.screen.blit(self.image, self.rect) #draw the surface (the image the where)
