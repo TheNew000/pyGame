@@ -5,10 +5,14 @@ from bullet_class import Bullet
 from enemy_class import Enemy
 
 
-def check_events(hero, bullets, game_settings, screen):
+def check_events(hero, bullets, game_settings, screen, play_button):
     for event in pygame.event.get(): #run through all pygame events
         if event.type == pygame.QUIT: #if the event is the quit event....quit!
             sys.exit()
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            mouse_x, mouse_y = pygame.mouse.get_pos()
+            if play_button.rect.collidepoint(mouse_x, mouse_y):
+                game_settings.game_active = True
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RIGHT: #"The user pressed "right"
                 hero.moving_right = True
@@ -22,7 +26,7 @@ def check_events(hero, bullets, game_settings, screen):
                 new_bullet = Bullet(screen, hero, game_settings)
                 bullets.add(new_bullet)
         elif event.type == pygame.KEYUP:
-            if event.key == pygame.K_RIGHT: #"The user pressed "right"
+            if event.key == pygame.K_RIGHT: 
                 hero.moving_right = False
             elif event.key == pygame.K_LEFT:
                 hero.moving_left = False
@@ -31,11 +35,13 @@ def check_events(hero, bullets, game_settings, screen):
             elif event.key == pygame.K_DOWN:
                 hero.moving_down = False
 
-def update_screen(settings, screen, hero, enemies, bullets):
+def update_screen(settings, screen, hero, enemies, bullets, play_button):
     screen.fill(settings.bg_color)
     hero.draw_me()
     for enemy in enemies.sprites():
         enemy.draw_me()
     for bullet in bullets.sprites():
         bullet.draw_bullet()
+    if not settings.game_active:
+        play_button.draw_button()
     pygame.display.flip()
