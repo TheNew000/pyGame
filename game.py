@@ -5,7 +5,7 @@ import game_functions as gf
 from pygame.sprite import Group
 from enemy_class import Enemy
 from start_button import Play_Button
-
+import time
 
 # Set up the main core function
 def run_game():
@@ -13,11 +13,14 @@ def run_game():
     game_settings = Settings()  # create an instance of settings Class
     screen = pygame.display.set_mode(game_settings.screen_size)  # Set the screen size with set_mode
     pygame.display.set_caption("Monster Attack")  # Set the messag e on the status bar
-    pygame.mixer.load('sounds/music.wav')
+    pygame.mixer.music.load('sounds/music.wav')
     pygame.mixer.music.play(-1)
+    win_sound = pygame.mixer.Sound('sounds/win3.wav')
+    lose_sound = pygame.mixer.Sound('sounds/lose.wav')
+    laser_sound = pygame.mixer.Sound('sounds/laser.wav')
+    enemy_sound = pygame.mixer.Sound('sounds/alien.wav')
 
     play_button = Play_Button(screen, 'PLAY ME!!')
-
 
     hero = Hero(screen)  # set a variable equal to the class and pass it the screen
     enemies = Group()
@@ -28,7 +31,7 @@ def run_game():
 
     while 1:  # run this loop forever
 
-        gf.check_events(hero, bullets, game_settings, screen, play_button)  # call gf and get the check events method
+        gf.check_events(hero, bullets, game_settings, screen, play_button, laser_sound)  # call gf and get the check events method
         gf.update_screen(game_settings, screen, hero, enemies, bullets, play_button)  # call the update_screen method
 
         if game_settings.game_active:
@@ -39,6 +42,7 @@ def run_game():
 
             if tick % 150 == 0:
                 enemies.add(Enemy(screen))
+                enemy_sound.play()
             # get rid of  bullets that are off the screen
             for enemy in enemies:
                 for bullet in bullets:
@@ -47,7 +51,9 @@ def run_game():
                     if enemy.rect.colliderect(bullet.rect):
                         enemies.remove(enemy)
                         bullets.remove(bullet)
+                        win_sound.play()
                 if enemy.rect.colliderect(hero.rect):
+                    lose_sound.play()
                     print "You DIED!"
                     exit(0)
 

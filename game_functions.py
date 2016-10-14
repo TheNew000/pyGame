@@ -5,7 +5,7 @@ from bullet_class import Bullet
 from enemy_class import Enemy
 
 
-def check_events(hero, bullets, game_settings, screen, play_button):
+def check_events(hero, bullets, game_settings, screen, play_button, laser_sound):
     for event in pygame.event.get(): #run through all pygame events
         if event.type == pygame.QUIT: #if the event is the quit event....quit!
             sys.exit()
@@ -25,6 +25,7 @@ def check_events(hero, bullets, game_settings, screen, play_button):
             elif event.key == pygame.K_SPACE:
                 new_bullet = Bullet(screen, hero, game_settings)
                 bullets.add(new_bullet)
+                laser_sound.play()
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_RIGHT: 
                 hero.moving_right = False
